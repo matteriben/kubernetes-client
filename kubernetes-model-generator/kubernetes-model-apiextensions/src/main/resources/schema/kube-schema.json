@@ -521,6 +521,9 @@
         "exclusiveMinimum": {
           "type": "boolean"
         },
+        "existingJavaType": {
+          "type": "string"
+        },
         "externalDocs": {
           "$ref": "#/definitions/kubernetes_apiextensions_v1_ExternalDocumentation",
           "existingJavaType": "io.fabric8.kubernetes.api.model.apiextensions.v1.ExternalDocumentation"
@@ -534,6 +537,9 @@
         "items": {
           "$ref": "#/definitions/kubernetes_apiextensions_v1_JSONSchemaPropsOrArray",
           "existingJavaType": "io.fabric8.kubernetes.api.model.apiextensions.v1.JSONSchemaPropsOrArray"
+        },
+        "javaType": {
+          "type": "string"
         },
         "maxItems": {
           "type": "integer",
@@ -1266,6 +1272,9 @@
         "exclusiveMinimum": {
           "type": "boolean"
         },
+        "existingJavaType": {
+          "type": "string"
+        },
         "externalDocs": {
           "$ref": "#/definitions/kubernetes_apiextensions_v1beta1_ExternalDocumentation",
           "existingJavaType": "io.fabric8.kubernetes.api.model.apiextensions.v1beta1.ExternalDocumentation"
@@ -1279,6 +1288,9 @@
         "items": {
           "$ref": "#/definitions/kubernetes_apiextensions_v1beta1_JSONSchemaPropsOrArray",
           "existingJavaType": "io.fabric8.kubernetes.api.model.apiextensions.v1beta1.JSONSchemaPropsOrArray"
+        },
+        "javaType": {
+          "type": "string"
         },
         "maxItems": {
           "type": "integer",

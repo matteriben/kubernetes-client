@@ -295,7 +295,8 @@ class GeneratorTest {
         defaultConfig,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -318,7 +319,8 @@ class GeneratorTest {
         defaultConfig,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -345,7 +347,8 @@ class GeneratorTest {
         defaultConfig,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -379,7 +382,8 @@ class GeneratorTest {
         defaultConfig,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -401,7 +405,8 @@ class GeneratorTest {
         defaultConfig,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
     Config config = new Config(null, null, false, new HashMap<>());
     JObject obj2 = new JObject(
         "v1alpha1",
@@ -412,7 +417,8 @@ class GeneratorTest {
         config,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
     String generatedAnnotationName = AbstractJSONSchema2Pojo.newGeneratedAnnotation().getNameAsString();
 
     // Act
@@ -592,7 +598,8 @@ class GeneratorTest {
             defaultConfig,
             null,
             Boolean.FALSE,
-            null),
+            null,
+            false),
         defaultConfig,
         null,
         false,
@@ -620,7 +627,8 @@ class GeneratorTest {
             defaultConfig,
             null,
             Boolean.FALSE,
-            null),
+            null,
+            false),
         defaultConfig,
         null,
         Boolean.FALSE,
@@ -651,7 +659,8 @@ class GeneratorTest {
         defaultConfig,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -681,7 +690,8 @@ class GeneratorTest {
         defaultConfig,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -708,7 +718,8 @@ class GeneratorTest {
         config,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -739,7 +750,8 @@ class GeneratorTest {
         defaultConfig,
         null,
         Boolean.FALSE,
-        null);
+        null,
+        false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -767,7 +779,7 @@ class GeneratorTest {
     nonNullableObj.setNullable(Boolean.FALSE);
     props.put("o2", nonNullableObj);
 
-    JObject obj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null);
+    JObject obj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null, false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -816,7 +828,7 @@ class GeneratorTest {
     obj.setAdditionalProperties(new JSONSchemaPropsOrBool(true, null));
     props.put("o1", obj);
 
-    JObject jobj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null);
+    JObject jobj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null, false);
 
     // Act
     GeneratorResult res = jobj.generateJava();
@@ -850,7 +862,7 @@ class GeneratorTest {
     newObj2.setProperties(obj2Props);
     props.put("o1", newObj1);
     props.put("o2", newObj2);
-    JObject obj = new JObject("v1alpha1", "t", props, null, false, defaultConfig, null, Boolean.FALSE, null);
+    JObject obj = new JObject("v1alpha1", "t", props, null, false, defaultConfig, null, Boolean.FALSE, null, false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -905,7 +917,7 @@ class GeneratorTest {
     objWithoutDefaultValues.setType("object");
     props.put("o2", objWithoutDefaultValues);
 
-    JObject obj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null);
+    JObject obj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null, false);
 
     // Act
     GeneratorResult res = obj.generateJava();
@@ -959,7 +971,7 @@ class GeneratorTest {
     // Assert
     assertThrows(JavaGeneratorException.class, () -> {
       // Act
-      JObject obj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null);
+      JObject obj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null, false);
     },
         "An exception is expected to be thrown when an object contains more that one duplicated field");
   }
@@ -978,8 +990,31 @@ class GeneratorTest {
     // Assert
     assertThrows(JavaGeneratorException.class, () -> {
       // Act
-      JObject obj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null);
+      JObject obj = new JObject(null, "t", props, null, false, defaultConfig, null, Boolean.FALSE, null, false);
     },
         "An exception is expected to be thrown when an object contains one duplicated field that is not marked as deprecated");
+  }
+
+  @Test
+  void testExistingJavaTypeObject() {
+    // Arrange
+    JObject obj = new JObject(
+        "v1alpha1",
+        "T",
+        null,
+        null,
+        false,
+        defaultConfig,
+        null,
+        Boolean.FALSE,
+        null,
+        true);
+
+    // Act
+    GeneratorResult res = obj.generateJava();
+
+    // Assert
+    assertEquals("v1alpha1.T", obj.getType());
+    assertEquals(0, res.getTopLevelClasses().size());
   }
 }

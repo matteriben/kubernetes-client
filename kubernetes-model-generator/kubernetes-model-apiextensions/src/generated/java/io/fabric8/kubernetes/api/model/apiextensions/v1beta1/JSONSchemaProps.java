@@ -50,10 +50,12 @@ import lombok.experimental.Accessors;
     "example",
     "exclusiveMaximum",
     "exclusiveMinimum",
+    "existingJavaType",
     "externalDocs",
     "format",
     "id",
     "items",
+    "javaType",
     "maxItems",
     "maxLength",
     "maxProperties",
@@ -136,6 +138,8 @@ public class JSONSchemaProps implements Editable<JSONSchemaPropsBuilder> , Kuber
     private Boolean exclusiveMaximum;
     @JsonProperty("exclusiveMinimum")
     private Boolean exclusiveMinimum;
+    @JsonProperty("existingJavaType")
+    private java.lang.String existingJavaType;
     @JsonProperty("externalDocs")
     private ExternalDocumentation externalDocs;
     @JsonProperty("format")
@@ -144,6 +148,8 @@ public class JSONSchemaProps implements Editable<JSONSchemaPropsBuilder> , Kuber
     private java.lang.String id;
     @JsonProperty("items")
     private JSONSchemaPropsOrArray items;
+    @JsonProperty("javaType")
+    private java.lang.String javaType;
     @JsonProperty("maxItems")
     private Long maxItems;
     @JsonProperty("maxLength")
@@ -210,7 +216,7 @@ public class JSONSchemaProps implements Editable<JSONSchemaPropsBuilder> , Kuber
     public JSONSchemaProps() {
     }
 
-    public JSONSchemaProps(java.lang.String $ref, java.lang.String $schema, JSONSchemaPropsOrBool additionalItems, JSONSchemaPropsOrBool additionalProperties, List<JSONSchemaProps> allOf, List<JSONSchemaProps> anyOf, JsonNode _default, Map<String, io.fabric8.kubernetes.api.model.apiextensions.v1beta1.JSONSchemaProps> definitions, Map<String, JSONSchemaPropsOrStringArray> dependencies, java.lang.String description, List<JsonNode> _enum, JsonNode example, Boolean exclusiveMaximum, Boolean exclusiveMinimum, ExternalDocumentation externalDocs, java.lang.String format, java.lang.String id, JSONSchemaPropsOrArray items, Long maxItems, Long maxLength, Long maxProperties, Double maximum, Long minItems, Long minLength, Long minProperties, Double minimum, Double multipleOf, JSONSchemaProps not, Boolean nullable, List<JSONSchemaProps> oneOf, java.lang.String pattern, Map<String, io.fabric8.kubernetes.api.model.apiextensions.v1beta1.JSONSchemaProps> patternProperties, Map<String, io.fabric8.kubernetes.api.model.apiextensions.v1beta1.JSONSchemaProps> properties, List<java.lang.String> required, java.lang.String title, java.lang.String type, Boolean uniqueItems, Boolean xKubernetesEmbeddedResource, Boolean xKubernetesIntOrString, List<java.lang.String> xKubernetesListMapKeys, java.lang.String xKubernetesListType, java.lang.String xKubernetesMapType, Boolean xKubernetesPreserveUnknownFields, List<ValidationRule> xKubernetesValidations) {
+    public JSONSchemaProps(java.lang.String $ref, java.lang.String $schema, JSONSchemaPropsOrBool additionalItems, JSONSchemaPropsOrBool additionalProperties, List<JSONSchemaProps> allOf, List<JSONSchemaProps> anyOf, JsonNode _default, Map<String, io.fabric8.kubernetes.api.model.apiextensions.v1beta1.JSONSchemaProps> definitions, Map<String, JSONSchemaPropsOrStringArray> dependencies, java.lang.String description, List<JsonNode> _enum, JsonNode example, Boolean exclusiveMaximum, Boolean exclusiveMinimum, java.lang.String existingJavaType, ExternalDocumentation externalDocs, java.lang.String format, java.lang.String id, JSONSchemaPropsOrArray items, java.lang.String javaType, Long maxItems, Long maxLength, Long maxProperties, Double maximum, Long minItems, Long minLength, Long minProperties, Double minimum, Double multipleOf, JSONSchemaProps not, Boolean nullable, List<JSONSchemaProps> oneOf, java.lang.String pattern, Map<String, io.fabric8.kubernetes.api.model.apiextensions.v1beta1.JSONSchemaProps> patternProperties, Map<String, io.fabric8.kubernetes.api.model.apiextensions.v1beta1.JSONSchemaProps> properties, List<java.lang.String> required, java.lang.String title, java.lang.String type, Boolean uniqueItems, Boolean xKubernetesEmbeddedResource, Boolean xKubernetesIntOrString, List<java.lang.String> xKubernetesListMapKeys, java.lang.String xKubernetesListType, java.lang.String xKubernetesMapType, Boolean xKubernetesPreserveUnknownFields, List<ValidationRule> xKubernetesValidations) {
         super();
         this.$ref = $ref;
         this.$schema = $schema;
@@ -226,10 +232,12 @@ public class JSONSchemaProps implements Editable<JSONSchemaPropsBuilder> , Kuber
         this.example = example;
         this.exclusiveMaximum = exclusiveMaximum;
         this.exclusiveMinimum = exclusiveMinimum;
+        this.existingJavaType = existingJavaType;
         this.externalDocs = externalDocs;
         this.format = format;
         this.id = id;
         this.items = items;
+        this.javaType = javaType;
         this.maxItems = maxItems;
         this.maxLength = maxLength;
         this.maxProperties = maxProperties;
@@ -398,6 +406,16 @@ public class JSONSchemaProps implements Editable<JSONSchemaPropsBuilder> , Kuber
         this.exclusiveMinimum = exclusiveMinimum;
     }
 
+    @JsonProperty("existingJavaType")
+    public java.lang.String getExistingJavaType() {
+        return existingJavaType;
+    }
+
+    @JsonProperty("existingJavaType")
+    public void setExistingJavaType(java.lang.String existingJavaType) {
+        this.existingJavaType = existingJavaType;
+    }
+
     @JsonProperty("externalDocs")
     public ExternalDocumentation getExternalDocs() {
         return externalDocs;
@@ -436,6 +454,16 @@ public class JSONSchemaProps implements Editable<JSONSchemaPropsBuilder> , Kuber
     @JsonProperty("items")
     public void setItems(JSONSchemaPropsOrArray items) {
         this.items = items;
+    }
+
+    @JsonProperty("javaType")
+    public java.lang.String getJavaType() {
+        return javaType;
+    }
+
+    @JsonProperty("javaType")
+    public void setJavaType(java.lang.String javaType) {
+        this.javaType = javaType;
     }
 
     @JsonProperty("maxItems")

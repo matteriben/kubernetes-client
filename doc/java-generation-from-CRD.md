@@ -174,6 +174,38 @@ And the corresponding configurations of the Maven plugin are (output of `mvn hel
       The URLs to be used to download CRDs from remote locations
 ```
 
+## Extension support
+
+The `existingJavaType` extension allows the generator to make use of an existing java type, such as
+`Affinity` in the example snippet below. The `JavaType` extension allows the fully qualified name of
+the generated class to be specified, and potentially reused such as `Point` in the example snippet below.
+
+```
+spec:
+  versions:
+    - schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                affinity:
+                  type: object
+                  existingJavaType: io.fabric8.kubernetes.api.model.Affinity
+                point-A:
+                  type: object
+                  javaType: com.example.Point
+                  properties:
+                    x-position:
+                      type: integer
+                    y-position:
+                      type: integer
+                point-B:
+                  type: object
+                  existingJavaType: com.example.Point
+```
+
 ## Compiling the generated code
 
 The generated code depends on a few dependencies to successfully compile:

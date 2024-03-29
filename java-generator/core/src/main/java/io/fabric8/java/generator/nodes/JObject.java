@@ -53,6 +53,7 @@ public class JObject extends AbstractJSONSchema2Pojo implements JObjectExtraAnno
   private final Set<String> deprecated = new HashSet<>();
 
   private final boolean preserveUnknownFields;
+  private final boolean existingClass; // Added to support existingJavaType extensions for generating Java classes
 
   public JObject(
       String pkg,
@@ -63,11 +64,13 @@ public class JObject extends AbstractJSONSchema2Pojo implements JObjectExtraAnno
       Config config,
       String description,
       final boolean isNullable,
-      JsonNode defaultValue) {
+      JsonNode defaultValue,
+      boolean existingClass) {
     super(config, description, isNullable, defaultValue, null);
     this.required = new HashSet<>(Optional.ofNullable(required).orElse(Collections.emptyList()));
     this.fields = new HashMap<>();
     this.preserveUnknownFields = preserveUnknownFields;
+    this.existingClass = existingClass;
 
     this.pkg = (pkg == null) ? "" : pkg.trim();
     String pkgPrefix = (this.pkg.isEmpty()) ? this.pkg : this.pkg + ".";
@@ -153,6 +156,9 @@ public class JObject extends AbstractJSONSchema2Pojo implements JObjectExtraAnno
 
   @Override
   public GeneratorResult generateJava() {
+    if (existingClass) {
+      return new GeneratorResult(Collections.emptyList());
+    }
     CompilationUnit cu = new CompilationUnit();
     if (!this.pkg.isEmpty()) {
       cu.setPackageDeclaration(new PackageDeclaration(new Name(this.pkg)));

@@ -44,7 +44,8 @@ class ApprovalTest {
         Arguments.of("testJokeCrd", "jokerequests-crd.yml", "JokeRequest", "JokeRequestJavaCr", new Config()),
         Arguments.of("testAkkaMicroservicesCrd", "akka-microservices-crd.yml", "AkkaMicroservice", "AkkaMicroserviceJavaCr",
             new Config()),
-        Arguments.of("testCalicoIPPoolCrd", "calico-ippool-crd.yml", "IPPool", "CalicoIPPoolCr", new Config()));
+        Arguments.of("testCalicoIPPoolCrd", "calico-ippool-crd.yml", "IPPool", "CalicoIPPoolCr", new Config()),
+        Arguments.of("testJavaType", "java-type-crd.yml", "JavaType", "JavaTypeCr", new Config()));
   }
 
   @ParameterizedTest

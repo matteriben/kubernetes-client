@@ -497,6 +497,19 @@ func (g *schemaGenerator) getStructProperties(t reflect.Type) map[string]JSONPro
 			props[name] = prop
 		}
 	}
+	// Added to support javaType and existingJavaType extensions for generating Java classes
+	if t.Name() == "JSONSchemaProps" {
+		extensions := [2]string{"javaType", "existingJavaType"}
+		for _, name := range extensions {
+			prop := JSONPropertyDescriptor{
+				JSONDescriptor: &JSONDescriptor{
+					Type: "string",
+				},
+			}
+			g.addConstraints(name, name, &prop)
+			props[name] = prop
+		}
+	}
 	return props
 }
 

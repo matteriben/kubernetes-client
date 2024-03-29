@@ -5,6 +5,7 @@
 #### Bugs
 
 #### Improvements
+* Fix #5843: Support javaType and existingJavaType extensions in java-generator
 
 #### Dependency Upgrade
 

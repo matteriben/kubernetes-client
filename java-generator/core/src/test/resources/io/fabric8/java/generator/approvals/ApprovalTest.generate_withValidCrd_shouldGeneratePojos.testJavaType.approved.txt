@@ -1,0 +1,54 @@
+JavaTypeCr[0] = package org.test.v1;
+
+@io.fabric8.kubernetes.model.annotation.Version(value = "v1" , storage = true , served = true)
+@io.fabric8.kubernetes.model.annotation.Group("example.com")
+@io.fabric8.kubernetes.model.annotation.Plural("javatypes")
+@javax.annotation.processing.Generated("io.fabric8.java.generator.CRGeneratorRunner")
+public class JavaType extends io.fabric8.kubernetes.client.CustomResource<org.test.v1.JavaTypeSpec, java.lang.Void> implements io.fabric8.kubernetes.api.model.Namespaced {
+}
+
+JavaTypeCr[1] = package org.test.v1;
+
+@com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+@com.fasterxml.jackson.annotation.JsonPropertyOrder({"affinity","point-A","point-B"})
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.fasterxml.jackson.databind.JsonDeserializer.None.class)
+@javax.annotation.processing.Generated("io.fabric8.java.generator.CRGeneratorRunner")
+public class JavaTypeSpec implements io.fabric8.kubernetes.api.model.KubernetesResource {
+
+    @com.fasterxml.jackson.annotation.JsonProperty("affinity")
+    @com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.SKIP)
+    private io.fabric8.kubernetes.api.model.Affinity affinity;
+
+    public io.fabric8.kubernetes.api.model.Affinity getAffinity() {
+        return affinity;
+    }
+
+    public void setAffinity(io.fabric8.kubernetes.api.model.Affinity affinity) {
+        this.affinity = affinity;
+    }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("point-A")
+    @com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.SKIP)
+    private com.example.Point pointA;
+
+    public com.example.Point getPointA() {
+        return pointA;
+    }
+
+    public void setPointA(com.example.Point pointA) {
+        this.pointA = pointA;
+    }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("point-B")
+    @com.fasterxml.jackson.annotation.JsonSetter(nulls = com.fasterxml.jackson.annotation.Nulls.SKIP)
+    private com.example.Point pointB;
+
+    public com.example.Point getPointB() {
+        return pointB;
+    }
+
+    public void setPointB(com.example.Point pointB) {
+        this.pointB = pointB;
+    }
+}
+

@@ -294,6 +294,20 @@ public abstract class AbstractJSONSchema2Pojo {
             prop.getDefault());
       case OBJECT:
         final boolean preserveUnknownFields = Boolean.TRUE.equals(prop.getXKubernetesPreserveUnknownFields());
+        // Added to support javaType and existingJavaType extensions for generating Java classes
+        boolean existingClass = false;
+        String type = null;
+        if (null != prop.getJavaType()) {
+          type = prop.getJavaType();
+        } else if (null != prop.getExistingJavaType()) {
+          type = prop.getExistingJavaType();
+          existingClass = true;
+        }
+        if (null != type) {
+          int index = type.lastIndexOf(".");
+          parentPkg = type.substring(0, Math.max(0, index));
+          key = type.substring(index + 1);
+        }
         return new JObject(
             parentPkg,
             key,
@@ -303,7 +317,8 @@ public abstract class AbstractJSONSchema2Pojo {
             config,
             prop.getDescription(),
             isNullable,
-            prop.getDefault());
+            prop.getDefault(),
+            existingClass);
       case ENUM:
         String enumType = JAVA_LANG_STRING;
         switch (prop.getType()) {

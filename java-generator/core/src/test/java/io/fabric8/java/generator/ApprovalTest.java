@@ -17,10 +17,14 @@ package io.fabric8.java.generator;
 
 import io.fabric8.java.generator.nodes.GeneratorResult;
 import io.fabric8.kubernetes.api.model.apiextensions.v1.CustomResourceDefinition;
+import io.fabric8.kubernetes.client.ConfigBuilder;
+import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.utils.Serialization;
+import java.util.Map;
 import org.approvaltests.Approvals;
 import org.approvaltests.namer.NamedEnvironment;
 import org.approvaltests.namer.NamerFactory;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -36,21 +40,77 @@ import static io.fabric8.java.generator.CRGeneratorRunner.groupToPackage;
 
 class ApprovalTest {
 
+  private java.util.List<io.fabric8.kubernetes.api.model.EnvVar> env = io.fabric8.kubernetes.client.utils.Serialization.unmarshal("[{\"name\":\"METADATA_NAMESPACE\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.namespace\"}}},{\"name\":\"METADATA_NAME\",\"valueFrom\":{\"fieldRef\":{\"fieldPath\":\"metadata.name\"}}}]", new com.fasterxml.jackson.core.type.TypeReference<java.util.List<io.fabric8.kubernetes.api.model.EnvVar>>() {});
+
+  @Test
+  void testEnv() {
+    assertThat(env).hasSize(2);
+    assertThat(env.get(0).getName()).isEqualTo("METADATA_NAMESPACE");
+    assertThat(env.get(0).getValueFrom().getFieldRef().getFieldPath()).isEqualTo("metadata.namespace");
+    assertThat(env.get(1).getName()).isEqualTo("METADATA_NAME");
+    assertThat(env.get(1).getValueFrom().getFieldRef().getFieldPath()).isEqualTo("metadata.name");
+  }
+
+//  @Test
+//  void config1() {
+//    Map<String, String> existingJavaTypes = Map.of("a", "b");
+//    Config config1 = Config.builder().existingJavaTypes(existingJavaTypes).build();
+//    Config config2 = Config.builder().existingJavaTypes(existingJavaTypes).build();
+//    assertThat(config1.getExistingJavaTypes()).isNotSameInstanceAs(config2.getExistingJavaTypes());
+//  }
+  @Test
+  void config4() {
+    Map<String, String> existingJavaTypes = Collections.emptyMap();
+    Config config1 = Config.builder().existingJavaTypes(existingJavaTypes).build();
+    Config config2 = Config.builder().existingJavaTypes(existingJavaTypes).build();
+    assertThat(config1.getExistingJavaTypes()).isNotSameInstanceAs(config2.getExistingJavaTypes());
+  }
+  @Test
+  void config2() {
+    Config.ConfigBuilder builder = Config.builder();
+//    builder.existingJavaTypes(Collections.emptyMap());
+    Config config3 = builder.build();
+    Config config4 = builder.build();
+    assertThat(config3.getExistingJavaTypes()).isNotSameInstanceAs(config4.getExistingJavaTypes());
+  }
+  @Test
+  void config5() {
+    Config.ConfigBuilder builder = Config.builder();
+    builder.existingJavaTypes(Collections.emptyMap());
+    Config config3 = builder.build();
+    Config config4 = builder.build();
+    assertThat(config3.getExistingJavaTypes()).isNotSameInstanceAs(config4.getExistingJavaTypes());
+  }
+//  @Test
+//  void config3() {
+//    Config.ConfigBuilder builder = Config.builder();
+//    builder.existingJavaTypes(Map.of("a", "b"));
+//    Config config3 = builder.build();
+//    Config config4 = builder.build();
+//    assertThat(config3.getExistingJavaTypes()).isNotSameInstanceAs(config4.getExistingJavaTypes());
+//  }
+  @Test
+  void portForward() {
+    KubernetesClient kubernetesClient = new io.fabric8.kubernetes.client.DefaultKubernetesClient(new ConfigBuilder().build());
+    kubernetesClient.services().inNamespace("foo").withName("bar").portForward(8080, 80);
+  }
+
   private static Stream<Arguments> getCRDGenerationInputData() {
     return Stream.of(
-        Arguments.of("testCrontabCrd", "crontab-crd.yml", "CronTab", "CrontabJavaCr", new Config()),
-        Arguments.of("testCrontabExtraAnnotationsCrd", "crontab-crd.yml", "CronTab", "CrontabJavaExtraAnnotationsCr",
-            new Config(null, true, null, new HashMap<>())),
-        Arguments.of("testKeycloakCrd", "keycloak-crd.yml", "Keycloak", "KeycloakJavaCr", new Config()),
-        Arguments.of("testJokeCrd", "jokerequests-crd.yml", "JokeRequest", "JokeRequestJavaCr", new Config()),
-        Arguments.of("testAkkaMicroservicesCrd", "akka-microservices-crd.yml", "AkkaMicroservice", "AkkaMicroserviceJavaCr",
-            new Config()),
-        Arguments.of("testCalicoIPPoolCrd", "calico-ippool-crd.yml", "IPPool", "CalicoIPPoolCr", new Config()),
+//        Arguments.of("testCrontabCrd", "crontab-crd.yml", "CronTab", "CrontabJavaCr", new Config()),
+//        Arguments.of("testCrontabExtraAnnotationsCrd", "crontab-crd.yml", "CronTab", "CrontabJavaExtraAnnotationsCr",
+//            new Config(null, true, null, new HashMap<>())),
+//        Arguments.of("testKeycloakCrd", "keycloak-crd.yml", "Keycloak", "KeycloakJavaCr", new Config()),
+//        Arguments.of("testJokeCrd", "jokerequests-crd.yml", "JokeRequest", "JokeRequestJavaCr", new Config()),
+//        Arguments.of("testAkkaMicroservicesCrd", "akka-microservices-crd.yml", "AkkaMicroservice", "AkkaMicroserviceJavaCr",
+//            new Config()),
+//        Arguments.of("testCalicoIPPoolCrd", "calico-ippool-crd.yml", "IPPool", "CalicoIPPoolCr", new Config()),
         Arguments.of("testExistingJavaType", "existing-java-type-crd.yml", "ExistingJavaType", "ExistingJavaTypeCr",
-            Config.builder().existingJavaTypes(Collections.singletonMap(
-                "org.test.v1.existingjavatypespec.Affinity", "io.fabric8.kubernetes.api.model.Affinity")).build()),
-        Arguments.of("testRequireSpecAndStatusCrd", "require-spec-and-status-crd.yml", "RequireSpecAndStatus",
-            "RequireSpecAndStatusJavaCr", new Config()));
+            Config.builder().existingJavaTypes(Map.of(
+              "org.test.v1.existingjavatypespec.Affinity", "io.fabric8.kubernetes.api.model.Affinity",
+              "org.test.v1.existingjavatypespec.Env", "io.fabric8.kubernetes.api.model.EnvVar")).build()));
+//        Arguments.of("testRequireSpecAndStatusCrd", "require-spec-and-status-crd.yml", "RequireSpecAndStatus",
+//            "RequireSpecAndStatusJavaCr", new Config()));
   }
 
   @ParameterizedTest

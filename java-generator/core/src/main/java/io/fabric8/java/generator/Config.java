@@ -45,7 +45,7 @@ public class Config {
   private List<String> filesSuffixes = DEFAULT_FILES_SUFFIXES;
   private String serDatetimeFormat = DEFAULT_SER_DATETIME_FORMAT;
   private String deserDatetimeFormat = DEFAULT_DESER_DATETIME_FORMAT;
-  private Map<String, String> existingJavaTypes = DEFAULT_EXISTING_JAVA_TYPES_OVERRIDES;
+  private Map<String, String> existingJavaTypes = new HashMap<>(DEFAULT_EXISTING_JAVA_TYPES_OVERRIDES); // 2
 
   public Config(
       Boolean uppercaseEnums,
@@ -157,7 +157,8 @@ public class Config {
       this.deserDatetimeFormat = deserDatetimeFormat;
     }
     if (existingJavaTypes != null) {
-      this.existingJavaTypes = existingJavaTypes;
+      // 1 3 4 5
+      this.existingJavaTypes = new HashMap<>(existingJavaTypes);
     }
   }
 
@@ -208,7 +209,7 @@ public class Config {
   }
 
   public Map<String, String> getExistingJavaTypes() {
-    return (existingJavaTypes == null || existingJavaTypes.isEmpty())
+    return (existingJavaTypes == null) // 2 4 5
         ? DEFAULT_EXISTING_JAVA_TYPES_OVERRIDES
         : existingJavaTypes;
   }

@@ -348,6 +348,14 @@ public class KubernetesSerialization {
     }
   }
 
+  public <T> T unmarshal(String str, final TypeReference<T> type) {
+    try (InputStream is = new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8))) {
+      return unmarshal(is, type);
+    } catch (IOException e) {
+      throw KubernetesClientException.launderThrowable(e);
+    }
+  }
+
   /**
    * Unmarshals an {@link InputStream}.
    *

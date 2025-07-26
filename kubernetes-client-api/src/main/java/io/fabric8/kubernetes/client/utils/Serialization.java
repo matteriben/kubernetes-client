@@ -186,6 +186,10 @@ public class Serialization {
     return kubernetesSerialization.unmarshal(str, type);
   }
 
+  public static <T> T unmarshal(String str, final TypeReference<T> type) {
+    return kubernetesSerialization.unmarshal(str, type);
+  }
+
   /**
    * Unmarshals an {@link InputStream}.
    *

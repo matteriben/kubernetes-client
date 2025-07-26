@@ -22,6 +22,7 @@ import io.fabric8.kubernetes.api.model.PodList;
 import io.fabric8.kubernetes.api.model.Service;
 import io.fabric8.kubernetes.api.model.ServiceBuilder;
 import io.fabric8.kubernetes.api.model.ServiceList;
+import io.fabric8.kubernetes.api.model.ServicePort;
 import io.fabric8.kubernetes.client.Client;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.LocalPortForward;
@@ -129,13 +130,23 @@ public class ServiceOperationsImpl extends HasMetadataOperation<Service, Service
         .orElseThrow(() -> new IllegalStateException("Could not find matching pod for service:" + item + "."));
   }
 
+  private Pod matchingPod(Service item) {
+    Map<String, String> labels = item.getSpec().getSelector();
+    PodList list = new PodOperationsImpl(context.getClient()).inNamespace(item.getMetadata().getNamespace()).withLabels(labels)
+      .list();
+    return list.getItems().stream().findFirst()
+      .orElseThrow(() -> new IllegalStateException("Could not find matching pod for service:" + item + "."));
+  }
+
   @Override
   public PortForward portForward(int port, ReadableByteChannel in, WritableByteChannel out) {
-    Pod m = matchingPod();
+    Service service = requireFromServer();
+    Pod m = matchingPod(service);
+    ServicePort servicePort = service.getSpec().getPorts().stream().filter(p -> p.getPort() == port).findFirst().orElseThrow();
     return new PodOperationsImpl(context.getClient())
         .inNamespace(m.getMetadata().getNamespace())
         .withName(m.getMetadata().getName())
-        .portForward(port, in, out);
+        .portForward(servicePort.getTargetPort().getIntVal(), in, out);
   }
 
   @Override

@@ -15,18 +15,15 @@
  */
 package io.fabric8.java.generator;
 
+import static com.google.testing.compile.Compiler.javac;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.JavaFileObjects;
 import io.fabric8.java.generator.exceptions.JavaGeneratorException;
 import io.sundr.builder.internal.processor.BuildableProcessor;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,11 +34,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import javax.tools.JavaFileObject;
-
-import static com.google.testing.compile.Compiler.javac;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class CompilationTest {
 
@@ -94,7 +93,6 @@ class CompilationTest {
     assertEquals(Compilation.Status.SUCCESS, compilation.status());
   }
 
-  @Disabled("Requires support from sundrio to work with compile-testing, see sundrio PR #469")
   @Test
   void testCrontabCRDCompilesWithExtraAnnotations() throws Exception {
     // Arrange

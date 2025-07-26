@@ -295,12 +295,15 @@ public class JObject extends AbstractJSONSchema2Pojo implements JObjectExtraAnno
           if (primitiveDefault != null) {
             objField.getVariable(0).setInitializer(primitiveDefault);
           } else {
+            String type = Set.of("java.util.List").contains(prop.getClassType()) ?
+              "new com.fasterxml.jackson.core.type.TypeReference<" + prop.getType() + ">() {}" :
+              prop.getClassType() + ".class";
             objField.getVariable(0).setInitializer(
                 new NameExpr(
                     "io.fabric8.kubernetes.client.utils.Serialization.unmarshal("
                         + "\"" + StringEscapeUtils.escapeJava(Serialization.asJson(prop.getDefaultValue())) + "\""
                         + ", "
-                        + prop.getClassType() + ".class"
+                        + type
                         + ")"));
           }
         }
